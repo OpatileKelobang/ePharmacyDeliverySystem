@@ -1,4 +1,11 @@
 package com.digital.epharmacy.entity.Driver;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Objects;
+import java.util.Set;
+
+
 /*
     Author: Chad Boswell
 <<<<<<< HEAD
@@ -7,11 +14,33 @@ package com.digital.epharmacy.entity.Driver;
     Desc: Driver entity composed Driver and DriverCar that stores details of the Driver and car
 >>>>>>> origin/groupCollaboration
     Date: 4 July 2020
+
+    Update: 27/10/20
+    Modified: added noBlank validation and created a composite relation between driver profile and car and hash set
+              one to one relationship
  */
+/**Author: Nicole Hawthorne
+ *Desc: Added the entity mapping and assigned the primary key
+ and changed default constructor to protected
+ * Date: 25/10/2020
+ * */
+
+@Entity
 public class DriverProfile {
 
+    @Id
+    @Column(name= "id")
     private String driverId;
-    private String driverName, driverSurname, driverLocation;
+    @NotBlank(message = "Driver Name is required")
+    private String driverName;
+    @NotBlank(message = "Driver Surname is required")
+    private String driverSurname;
+    @NotBlank(message = "Driver location is required")
+    private String driverLocation;
+
+
+
+    protected DriverProfile() {}
 
     // builder pattern method constructor
     private DriverProfile(Builder builder){
@@ -43,7 +72,7 @@ public class DriverProfile {
     // to string to display what is in the class
     @Override
     public String toString() {
-       // return "DriverProfile{" +
+        // return "DriverProfile{" +
 
         return "DriverProfile{" +
                 "driverId=" + driverId +
@@ -87,5 +116,18 @@ public class DriverProfile {
         public DriverProfile builder(){
             return new DriverProfile(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DriverProfile driverProfile = (DriverProfile) o;
+        return driverId.equals(driverProfile.driverId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(driverId);
     }
 }

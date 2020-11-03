@@ -1,11 +1,11 @@
 package com.digital.epharmacy.entity.User;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.validator.constraints.Range;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /*
  * Author: Nicole Hawthorne
@@ -13,27 +13,32 @@ import javax.validation.constraints.NotNull;
  * Date: 03/07/2020
  *
  * Edited By Opatile Kelobang
- * Date: 25 Septembre 2020
+ * Date: 25 September 2020
+ *
+ * Modified: 26 October 2020
+ * Updated Method call for Read by Pharmacy name
+ *
  * */
-//main class
+
 @Entity
 public class MedicalAid {
     //naming entity attributes and assigning their variable values
-   @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String userId;
+    @Id
+    @Column(name = "id")
+    private String medicalAidId;
     @NotNull(message = "Medical aid number is required")
+    @Range(min = 1, max = 2147483647, message = "Medical aid number is required")
     private int userMedicalAidNumber;
     @NotBlank(message = "Medical aid scheme is required")
     private String medicalAidScheme;
     @NotBlank(message = "Medical aid name is required")
     private String medicalAidName;
 
-    private MedicalAid(){}
+    protected MedicalAid(){}
 
     //constructor for Builder class
     private MedicalAid (Builder builder){
-        this.userId = builder.userId;
+        this.medicalAidId = builder.medicalAidId;
         this.userMedicalAidNumber = builder.userMedicalAidNumber;
         this.medicalAidName = builder.medicalAidName;
         this.medicalAidScheme = builder.medicalAidScheme;
@@ -41,8 +46,8 @@ public class MedicalAid {
     }
     
     //getters to get all values of attributes
-    public String getUserId() {
-        return userId;
+    public String getMedicalAidId() {
+        return medicalAidId;
     }
 
     public int getUserMedicalAidNumber() {
@@ -61,7 +66,7 @@ public class MedicalAid {
     @Override
     public String toString() {
         return "MedicalAid{" +
-                "userId=" + userId +
+                "userId=" + medicalAidId +
                 ", userMedicalAidNumber=" + userMedicalAidNumber +
                 ", medicalAidName='" + medicalAidName + '\'' +
                 ", medicalAidScheme='" + medicalAidScheme + '\'' +
@@ -73,11 +78,11 @@ public class MedicalAid {
         //same assigned attributes in main class with variable values
         private int  userMedicalAidNumber;
         private String medicalAidName, medicalAidScheme;
-        private String userId;
+        private String medicalAidId;
 
         //setting UserId value using builder pattern
-        public Builder setUserId(String userId){
-            this.userId = userId;
+        public Builder setMedicalAidId(String medicalAidId){
+            this.medicalAidId = medicalAidId;
             return this;
         }
         //setting User Medical Aid  value using builder pattern
@@ -98,7 +103,7 @@ public class MedicalAid {
         
         // Builder copy method that create instance of MedicalAid and makes a copy out of it
         public Builder copy(MedicalAid medicalAid){
-            this.userId = medicalAid.userId;
+            this.medicalAidId = medicalAid.medicalAidId;
             this.userMedicalAidNumber = medicalAid.userMedicalAidNumber;
             this.medicalAidName = medicalAid.medicalAidName;
             this.medicalAidScheme = medicalAid.medicalAidScheme;
@@ -109,5 +114,18 @@ public class MedicalAid {
         public MedicalAid build(){
             return new MedicalAid(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MedicalAid that = (MedicalAid) o;
+        return medicalAidId.equals(that.medicalAidId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(medicalAidId);
     }
 }

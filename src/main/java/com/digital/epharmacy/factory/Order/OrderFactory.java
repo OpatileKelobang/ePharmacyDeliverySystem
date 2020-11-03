@@ -4,27 +4,27 @@ package com.digital.epharmacy.factory.Order;
 import com.digital.epharmacy.entity.Order.Order;
 import com.digital.epharmacy.util.GenericHelper;
 
+import java.math.BigDecimal;
+
 public class OrderFactory {
 
-    public static Order createOrder(String userID,   double orderTotal, int totalCatalogueItem, String paymentType){
+    public static Order createOrder(double orderTotal, int totalCatalogueItem, String paymentType){
 
         //generating order number
-       String orderNumber = GenericHelper.generateId();
+        String orderNumber = GenericHelper.generateId();
 
-       //getting the date
+        //getting the date
         String date = GenericHelper.paymentDate();
 
         //default for the orderStatus
         String orderStatus = "Processing";
 
-       Order order = new Order.Builder()
-                .setUserID(userID)
+        Order order = new Order.Builder()
                 .setOrderNumber(orderNumber)
                 .setOrderTotal(orderTotal)
                 .setTotalCatalogueItems(totalCatalogueItem)
                 .setPaymentType(paymentType)
                 .setOrderStatus(orderStatus)
-                .setDate(date)
                 .build();
         return order;
 

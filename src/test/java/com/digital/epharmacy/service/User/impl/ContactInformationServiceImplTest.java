@@ -5,6 +5,7 @@ import com.digital.epharmacy.factory.User.ContactInformationFactory;
 import com.digital.epharmacy.service.User.ContactInformationService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
@@ -12,8 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ContactInformationServiceImplTest {
 
-    private static ContactInformationService service = ContactInformationServiceImpl.getService();
-    private static ContactInformation contactInformation = ContactInformationFactory.createContactInformation("Matthew","DisChem",98,89);
+    @Autowired
+    private static ContactInformationService service;
+    private static ContactInformation contactInformation = ContactInformationFactory.createContactInformation("08231501354","0123151354");
 
     @Test
     void getAll() {
@@ -29,15 +31,15 @@ class ContactInformationServiceImplTest {
     void create() {
 
         ContactInformation created = service.create(contactInformation);
-        assertEquals(contactInformation.getUserId(), created.getUserId());
+        assertEquals(contactInformation.getcontactId(), created.getcontactId());
         System.out.println("Contact Information Created For:" + created);
     }
 
     @Test
     void read() {
 
-        ContactInformation read = service.read(contactInformation.getUserId());
-        assertEquals(contactInformation.getUserId(), read.getUserId());
+        ContactInformation read = service.read(contactInformation.getcontactId());
+        assertEquals(contactInformation.getcontactId(), read.getcontactId());
         System.out.println("Read:" + read);
 
     }
@@ -45,7 +47,7 @@ class ContactInformationServiceImplTest {
     @Test
     void update() {
 
-        ContactInformation updated = new ContactInformation.Builder().copy(contactInformation).setUserId("Chervon").setPharmacyId("Clicks").build();
+        ContactInformation updated = new ContactInformation.Builder().copy(contactInformation).setPrimaryNumber("0834597841").setSecondaryNumber("084124569842").build();
         updated = service.update(updated);
         System.out.println("Updated User:" + updated);
     }
@@ -53,7 +55,7 @@ class ContactInformationServiceImplTest {
     @Test
     void delete() {
 
-        boolean deleted = service.delete(contactInformation.getUserId());
+        boolean deleted = service.delete(contactInformation.getcontactId());
         Assert.assertTrue(deleted);
         System.out.println("User has been deleted successfully");
 

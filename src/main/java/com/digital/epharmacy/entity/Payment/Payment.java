@@ -1,24 +1,43 @@
 package com.digital.epharmacy.entity.Payment;
-/*
- * Author: Ayabulela Mahlathini
- * Desc: Payment entity handles payments in order to complete orders and then storing the information of each order payment a user is making.
- * Date: 04/07/2020
+
+
+/*Author: Matthew Pearce
+ *Desc: Added the entity mapping and assigned the primary key also added no null values each entity
+ and changed default constructor to protected
+ * Date: 26/10/2020
  * */
-
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 //Main class
+@Entity
 public class Payment {
 
     //Declaring variables using all attributes from the Payment Entity
-    private String paymentStatus, typeOfPayment, referenceNumber, paymentNotification;
+    @Id
+    private String referenceNumber;
+    @NotNull(message = "Payment Status is required")
+    private String paymentStatus;
+    @NotNull(message = "Type of Payment is required")
+    private String typeOfPayment;
+    @NotNull(message = "Payment Notification is required")
+    private String paymentNotification;
+    @NotNull(message = "Payment total is required")
     private double paymentTotal;
+    @NotNull(message = "Date is required")
     private String date;
 
-    //declaring foreign keys, using String datatype for now
+    //declaring foreign keys, using String datatype for now)
     private String pharmacyID;
+
     private String userID;
+
     private String orderNumber;
 
+    protected Payment (){}
     //builder Constructor
     public Payment(Builder builder) {
 
@@ -175,5 +194,18 @@ public class Payment {
         public Payment build() {
             return new Payment(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Payment payment = (Payment) o;
+        return Objects.equals(referenceNumber, payment.referenceNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(referenceNumber);
     }
 }

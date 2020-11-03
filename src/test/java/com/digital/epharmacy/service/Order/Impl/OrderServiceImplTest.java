@@ -8,7 +8,6 @@ package com.digital.epharmacy.service.Order.Impl;
 import com.digital.epharmacy.entity.Order.Order;
 import com.digital.epharmacy.entity.Order.OrderHistory;
 import com.digital.epharmacy.factory.Order.OrderFactory;
-import com.digital.epharmacy.repository.Order.Impl.OrderRepositoryImpl;
 import com.digital.epharmacy.repository.Order.OrderRepository;
 import com.digital.epharmacy.service.Order.OrderService;
 import org.junit.Assert;
@@ -16,24 +15,31 @@ import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SpringBootTest
+@RunWith(SpringRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OrderServiceImplTest {
 
-    private static OrderService service = OrderServiceImpl.getService();
+    @Autowired
+    private OrderService service;
 
     private static Order order = OrderFactory
-            .createOrder("user-id", 225.99, 2, "yoco");
+            .createOrder(225.99, 2, "yoco");
     private static Order order2 = OrderFactory
-            .createOrder("user-id-2", 199.99, 5, "paypal");
+            .createOrder(199.99, 5, "paypal");
     private static Order order3 = OrderFactory
-            .createOrder("user-id", 558.99, 15, "COD");
+            .createOrder(558.99, 15, "COD");
 
 
     @org.junit.jupiter.api.Order(1)

@@ -5,13 +5,34 @@ package com.digital.epharmacy.entity.Catalogue;
  * Desc: Catalogue Item Entity composed of Pharmacy Catalogue
  * Date: 04/07/2020
  */
-public class CatalogueItem {
 
-    //naming entity attributes and assigning their variable values
-    private int itemNumber, itemQuantity;
-    private String itemName, itemDescription;
+import org.hibernate.validator.constraints.Range;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+
+@Entity
+public class CatalogueItem implements Serializable {
+
+    @Id
+    @Column(name = "id")
+    private int itemNumber;
+    @NotEmpty
+    private int itemQuantity;
+    @NotEmpty
+    private String itemName;
+    @NotEmpty
+    private String itemDescription;
+    @NotEmpty
+    @Range(min=0)
     private double itemPrice;
 
+    //non argument constructor
+    protected CatalogueItem(){}
     //constructor for Builder class
     private CatalogueItem(Builder builder) {
         this.itemDescription = builder.itemDescription;

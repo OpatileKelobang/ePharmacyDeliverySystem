@@ -1,29 +1,37 @@
 package com.digital.epharmacy.entity.User;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.io.Serializable;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 /*
-* Author: Nicole Hawthorne
-* Desc: UserProfile entity for registered user information
-* Date: 03/07/2020
-* */
+ * Author: Nicole Hawthorne
+ * Desc: UserProfile entity for registered user information
+ * Date: 03/07/2020
+ * */
+
+/**Author: Nicole Hawthorne
+ *Desc: Added the entity mapping and assigned the primary key as ID also added noBlank values each entity so that its not empty
+ and changed default constructor to protected.
+ Lastly added equals and hashcode for Id
+ * Date: 25/10/2020
+ * */
 //main class
 @Entity
 public class UserProfile {
     //naming entity attributes and assigning their variable values
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private String userId;
+    @NotBlank(message = "Username is required")
+    private String userName;
+    @NotBlank(message = "User Surname is required")
+    private String userSurname;
+    @NotBlank(message = "Gender is required")
+    private String gender;
 
-    private String userName, userSurname, gender;
-
-
-
-    private UserProfile(){}
+    protected UserProfile(){}
 
     //constructor for Builder class
     private UserProfile (Builder builder){
@@ -104,5 +112,18 @@ public class UserProfile {
         public UserProfile build(){
             return new UserProfile(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserProfile that = (UserProfile) o;
+        return userId.equals(that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
     }
 }
