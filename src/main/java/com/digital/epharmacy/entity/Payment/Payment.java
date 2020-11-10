@@ -11,14 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 //Main class
 @Entity
-public class Payment {
+public class Payment implements Serializable {
 
     //Declaring variables using all attributes from the Payment Entity
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String referenceNumber;
     @NotNull(message = "Payment Status is required")
     private String paymentStatus;
@@ -28,18 +28,15 @@ public class Payment {
     private String paymentNotification;
     @NotNull(message = "Payment total is required")
     private double paymentTotal;
-    @NotNull(message = "Date is required")
+
     private String date;
 
     //declaring foreign keys, using String datatype for now
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private String pharmacyID;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private String userID;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private String orderNumber;
 
     protected Payment (){}

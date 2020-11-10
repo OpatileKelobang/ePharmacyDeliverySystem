@@ -7,6 +7,7 @@ package com.digital.epharmacy.entity.Pharmacy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,8 +22,9 @@ public class Pharmacy {
     private String pharmacyName;
 
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "pharmacyId")
-    private Set<PharmacyBankAccountInformation> bankAccount;
+    @OneToMany(targetEntity = PharmacyBankAccountInformation.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "pharmacy_id", referencedColumnName = "id")
+    private List<PharmacyBankAccountInformation> bankAccount;
 
     protected Pharmacy(){}
 

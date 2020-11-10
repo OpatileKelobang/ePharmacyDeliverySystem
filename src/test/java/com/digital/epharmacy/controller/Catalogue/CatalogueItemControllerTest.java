@@ -35,6 +35,9 @@ class CatalogueItemControllerTest {
     CatalogueItem catItem = CatalogueItemFactory.createCatalogueItem(5585, "Mayo gel", " Heartburn medicine",
             10, 500);
 
+    private static String SECURITY_USERNAME = "CatalogueItemUser";
+    private static String SECURITY_PASSWORD = "catlogueitemuserpassword";
+
     @Autowired
     private TestRestTemplate restTemplate;
     private final String baseURL = "http://localhost:8080/catalogueItem";

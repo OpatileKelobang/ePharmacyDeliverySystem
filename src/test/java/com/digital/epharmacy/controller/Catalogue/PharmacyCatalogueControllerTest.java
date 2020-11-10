@@ -32,6 +32,9 @@ class PharmacyCatalogueControllerTest {
     PharmacyCatalogue pharmacyCat = PharmacyCatalogueFactory.createPharmacyCatalogue(
             "Beauty", "Facial");
 
+    private static String SECURITY_USERNAME = "PharmacyCalatalogueUser";
+    private static String SECURITY_PASSWORD = "pharmacycataloguepassword";
+
     @Autowired
     private TestRestTemplate restTemplate;
     private String baseURL = "http://localhost:8080/pharmacyCatalogue";

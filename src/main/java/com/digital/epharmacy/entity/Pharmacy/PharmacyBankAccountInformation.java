@@ -30,9 +30,9 @@ public class PharmacyBankAccountInformation {
     private String beneficiaryReference;
 
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "pharmacyId", nullable = true)
-    private Pharmacy pharmacyId;
+    private Pharmacy pharmacyId;*/
 
     protected PharmacyBankAccountInformation(){
 

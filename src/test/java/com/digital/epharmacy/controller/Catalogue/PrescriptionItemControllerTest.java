@@ -29,6 +29,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class PrescriptionItemControllerTest {
 
     PrescriptionItem prescriptionItem = PrescriptionItemFactory.createPrescriptionItem(5236, " Optometory ", "");
+
+    private static String SECURITY_USERNAME = "PharmacyCalatalogueUser";
+    private static String SECURITY_PASSWORD = "pharmacycataloguepassword";
+
+
     @Autowired
     private TestRestTemplate restTemplate;
     private String baseURL = "http://localhost:8080/prescriptionItem";

@@ -42,10 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
               .roles(User_Role)
               .and()
               .withUser("PrescriptionItemUser")
-              .passsword(encoder().encode("prescriptitempassword"))
-              .roles(User_Role)
+              .password(encoder().encode("prescriptitempassword"))
+              .roles(User_Role);
 
-      
+
+
 
         auth.inMemoryAuthentication()
                 .withUser("Admin")
@@ -84,9 +85,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("paymentpassword")
                 .roles(User_Role)
                 .and()
-                 .withUser("contactinformationuser")
-                 .password("contactinformationpassword")
-                 .roles(User_Role)
+                .withUser("contactinformationuser")
+                .password("contactinformationpassword")
+                .roles(User_Role);
 
         
 
@@ -174,7 +175,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE,"http://localhost:8080/payment/delete/**").hasRole(Admin_Role)
                 .antMatchers(HttpMethod.DELETE,"http://localhost:8080/contactinformation/delete/**").hasRole(Admin_Role)
 
-                .and()
+                //.and()
 
                 //order,orderhistory & order receipt
                 .antMatchers(HttpMethod.POST,"http://localhost:8080/order/create").hasRole(User_Role + Admin_Role)
