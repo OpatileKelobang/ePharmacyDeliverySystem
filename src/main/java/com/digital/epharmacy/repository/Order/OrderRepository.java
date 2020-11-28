@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Set;
+;
 
 /** Author: Ayabulela Mahlathini - 218017774
  * Date: 29/08/2020
@@ -15,4 +16,4 @@ import java.util.Set;
  * Desc: changed from the depricated Repository to using the JpaRepository
  */
 @Repository
-public interface OrderRepository extends JpaRepository<Order, String> { }
+public interface OrderRepository extends JpaRepository<Order, Long> { }

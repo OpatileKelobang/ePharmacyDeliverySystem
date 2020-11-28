@@ -8,14 +8,20 @@ package com.digital.epharmacy.service.Order.Impl;
  * Desc: Altered Service to use JpaRepository methods for creating, reading, updating and deleting
  */
 
+import com.digital.epharmacy.entity.Catalogue.CatalogueItem;
 import com.digital.epharmacy.entity.Order.Order;
 import com.digital.epharmacy.repository.Order.OrderRepository;
+import com.digital.epharmacy.service.CatalogueItem.impl.CatalogueItemServiceImpl;
 import com.digital.epharmacy.service.Order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +29,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository repository;
+
+    @Autowired
+    private CatalogueItemServiceImpl catalogueItemService;
+
 
     @Override
     public Set<Order> getAll() {
@@ -37,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
         completedOrders = orders.stream()
                 .filter(o -> o
-                        .getOrderStatus()
+                        .getOrder_status()
                         .trim()
                         .equalsIgnoreCase("Completed"))
                 .collect(Collectors.toSet());
@@ -45,24 +55,64 @@ public class OrderServiceImpl implements OrderService {
         return completedOrders;
     }
 
+    @Override
+    public Set<Order> getAllProcessing() {
+        Set<Order> orders = getAll();
+        Set<Order> processingOrders;
+
+        processingOrders = orders.stream()
+                .filter(o -> o
+                        .getOrder_status()
+                        .trim()
+                        .equalsIgnoreCase("Processing"))
+                .collect(Collectors.toSet());
+
+        return processingOrders;
+    }
+
+    @Override
+    public Set<Order> getAllCanceled() {
+        Set<Order> orders = getAll();
+        Set<Order> canceledOrders;
+
+        canceledOrders = orders.stream()
+                .filter(o -> o
+                        .getOrder_status()
+                        .trim()
+                        .equalsIgnoreCase("Canceled"))
+                .collect(Collectors.toSet());
+
+        return canceledOrders;
+    }
+
+    @Override
+    public List<CatalogueItem> addItemsToOrder(List<Long> item_ids) {
+        List<CatalogueItem> items = new ArrayList<>();
+
+        for (Long i : item_ids) {
+            items.add(catalogueItemService.read(i));
+        }
+
+        return items;
+    }
+
     //tracking order status
     @Override
-    public String trackOrderStatus(String orderID) {
-        return this.read(orderID).getOrderStatus();
+    public String trackOrderStatus(Long order_id) {
+        return this.read(order_id).getOrder_status();
     }
 
     //getting all the history by a user
     @Override
-    public Set<Order> getAllOrdersByUser(String userID) {
+    public Set<Order> getAllOrdersByUser(String user_id) {
         Set<Order> orders = getAll();
         Set<Order> orderHistoryByUser;
 
         orderHistoryByUser = orders.stream()
                 .filter(o -> o
                         .getUser()
-                        .getUserId()
-                        .trim()
-                        .equalsIgnoreCase(userID))
+                        .getUser_id()
+                        .equals(user_id))
                 .collect(Collectors.toSet());
 
         return orderHistoryByUser;
@@ -76,20 +126,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order read(String id) {
+    public Order read(Long id) {
         return this.repository.findById(id).orElseGet(null);
     }
 
     @Override
     public Order update(Order order) {
-        if (this.repository.existsById(order.getOrderNumber())) {
+        if (this.repository.existsById(order.getOrder_number())) {
             return this.repository.save(order);
         }
         return null;
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(Long id) {
         this.repository.deleteById(id);
         if (this.repository.existsById(id)){
             return false;

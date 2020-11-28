@@ -4,7 +4,8 @@ import com.digital.epharmacy.entity.Order.OrderReceipt;
 import com.digital.epharmacy.service.IService;
 
 import java.util.Set;
+;
 
-public interface OrderReceiptService extends IService<OrderReceipt, String> {
+public interface OrderReceiptService extends IService<OrderReceipt, Long> {
     Set<OrderReceipt> getAll();
 }
